@@ -48,20 +48,27 @@ public class ScoreActivity extends AppCompatActivity {
         if (intent != null && intent.hasExtra("result") && intent.hasExtra("countOfQuestions")) {
             int result = intent.getIntExtra("result", 0);
             int count = intent.getIntExtra("countOfQuestions", 0);
-
             binding.textViewResult.setText("Your result: " + result);
             binding.textViewCountQuestion.setText("Questions: " + count);
 
-            SharedPreferences preferences = getSharedPreferences("math_game", MODE_PRIVATE);
+           /* SharedPreferences preferences = getSharedPreferences("math_game", MODE_PRIVATE);
             int max = preferences.getInt("max", 0);
-            binding.textViewRecord.setText("Your record: " + max);
+            binding.textViewRecord.setText("Your record: " + max);*/
         }
+    }
+
+    public void compare(List<Attempt> list){
+        int record=0;
+        for(Attempt attempt :list){
+            if (record <attempt.correctAnswers) record=attempt.correctAnswers;
+        }
+        binding.textViewRecord.setText("Your recod: "+record);
     }
 
     private void showAllAttempts() {
         AppDataBase db = AppDataBase.getInstance(getApplicationContext());
         List<Attempt> attempts = db.dao().getAllAttempts();
-
+        compare(attempts);
         AttemptAdapter adapter = new AttemptAdapter(attempts);
         RecyclerView recyclerView = binding.recyclerViewAttempts;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,6 +87,7 @@ Attempt item = attempts.get(position);
 db.dao().deleteAttempt(item);
 attempts.remove(position);
 adapter.notifyItemRemoved(position);
+compare(attempts);
                 Toast.makeText(ScoreActivity.this, "Successfully deleted!!!", Toast.LENGTH_SHORT).show();
             }
         });

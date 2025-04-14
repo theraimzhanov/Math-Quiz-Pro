@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 // when time is up onFinish method works, first save scores, gameOver variable's value change
-                saveHighScore();
+               // saveHighScore();
                 saveAttemptToDatabase();
                 gameOver = true;
                 // we use intent to send data to another screen key
