@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     // game is limited (60 seconds) when time is up it will go to send screen automatically
     private void startTimer() {
         // we use CountDownTimer from package android.os to count time backside
-        new CountDownTimer(12000, 1000) {
+        new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 binding.textViewTimer.setText(formatTime(millisUntilFinished));
